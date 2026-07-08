@@ -228,6 +228,44 @@ const bloodRecipes = {
   ],
 };
 
+const oilRecipes = {
+  "Óleo de Coragem": [
+    ["Sangue de Palhaço", 1],
+    ["Fruto da Natureza", 1],
+    ["Pó de Chama", 1],
+    ["Galho de Monge", 1],
+  ],
+  "Óleo de Tranquilidade": [
+    ["Sangue de Homem Sábio", 1],
+    ["Fruto da Natureza", 1],
+    ["Pó da Terra", 1],
+    ["Laço de Árvore Sangrenta", 1],
+  ],
+  "Óleo da Corrupção": [
+    ["Sangue do Pecador", 1],
+    ["Fruto da Natureza", 1],
+    ["Pó de Escuridão", 1],
+    ["Folha de Espírito", 1],
+  ],
+  "Óleo de Regeneração": [
+    ["Sangue da Fera Lendária", 1],
+    ["Fruto da Natureza", 1],
+    ["Pó de Rachadura", 1],
+    ["Caroço de Árvore Vermelha", 1],
+  ],
+  "Óleo da Tempestade": [
+    ["Sangue do Tirano", 1],
+    ["Fruto da Natureza", 1],
+    ["Pó do Tempo", 1],
+    ["Casca de Árvore Velha", 1],
+  ],
+};
+
+const craftedIngredientRecipes = {
+  ...bloodRecipes,
+  ...oilRecipes,
+};
+
 const baseBloodTypes = [
   "Sangue de Urso",
   "Sangue de Lagarto",
@@ -285,8 +323,8 @@ function accumulateRecipeBloodTotals(recipe, multiplier, totals) {
   recipe.forEach(([name, amount]) => {
     const totalAmount = multiplier * amount;
 
-    if (elixirRecipes[name]) {
-      accumulateRecipeBloodTotals(elixirRecipes[name], totalAmount, totals);
+    if (craftedIngredientRecipes[name]) {
+      accumulateRecipeBloodTotals(craftedIngredientRecipes[name], totalAmount, totals);
       return;
     }
 
@@ -302,8 +340,8 @@ function renderBloodSummary(quantity) {
   farmacos.forEach((farmaco) => {
     const farmacoAmount = quantity * farmaco.amount;
     farmaco.items.forEach(([name, amount]) => {
-      if (elixirRecipes[name]) {
-        accumulateRecipeBloodTotals(elixirRecipes[name], farmacoAmount * amount, totals);
+      if (craftedIngredientRecipes[name]) {
+        accumulateRecipeBloodTotals(craftedIngredientRecipes[name], farmacoAmount * amount, totals);
       } else if (isBloodItem(name)) {
         accumulateBloodTotals(name, farmacoAmount * amount, totals);
       }
@@ -331,11 +369,13 @@ function renderBloodSummary(quantity) {
 }
 
 function buildBloodPopover(name, total) {
-  if (bloodRecipes[name]) {
+  if (craftedIngredientRecipes[name]) {
     const baseTotals = {};
-    accumulateBloodTotals(name, total, baseTotals);
+    if (bloodRecipes[name]) {
+      accumulateBloodTotals(name, total, baseTotals);
+    }
 
-    const materials = bloodRecipes[name]
+    const materials = craftedIngredientRecipes[name]
       .map(([ingredient, amount]) => `
         <li>
           <span>${ingredient}</span>
@@ -356,15 +396,19 @@ function buildBloodPopover(name, total) {
 
     return `
       <div class="material-card green" tabindex="0">
-        <div class="material-badge green">Sangue feito</div>
+        <div class="material-badge green">${bloodRecipes[name] ? "Sangue feito" : "Ingrediente feito"}</div>
         <div class="material-name">${name}</div>
         <div class="material-count">${formatAmount(total)}</div>
         <div class="material-tip">
           <strong>Como fazer</strong>
           <small>Total para ${formatAmount(total)} unidade(s).</small>
           <ul>${materials}</ul>
-          <strong style="margin-top:10px; display:block;">Base coletada</strong>
-          <ul>${baseMaterials || '<li><span>Sem sangue base</span><strong>0</strong></li>'}</ul>
+          ${
+            bloodRecipes[name]
+              ? `<strong style="margin-top:10px; display:block;">Base coletada</strong>
+          <ul>${baseMaterials || '<li><span>Sem sangue base</span><strong>0</strong></li>'}</ul>`
+              : ""
+          }
         </div>
       </div>
     `;
