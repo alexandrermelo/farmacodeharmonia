@@ -343,6 +343,7 @@ h2 {
   font-size: 0.95rem;
   font-weight: 820;
   text-align: left;
+  text-decoration: none;
 }
 
 .ingredient-button:hover,
@@ -353,6 +354,11 @@ h2 {
   background: linear-gradient(135deg, rgba(200, 59, 215, 0.08), rgba(143, 84, 255, 0.08));
   transform: translateY(-1px);
   box-shadow: 0 8px 18px rgba(200, 59, 215, 0.12);
+}
+
+.recipe-link {
+  padding: 0;
+  background: transparent;
 }
 
 .ingredients strong {
@@ -466,7 +472,7 @@ h2 {
     padding 220ms ease;
 }
 
-.material-card:hover .material-tip,
+.material-card:focus-within .material-tip,
 .material-card:focus-visible .material-tip {
   opacity: 1;
   visibility: visible;
@@ -606,6 +612,67 @@ h2 {
   background: rgba(200, 59, 215, 0.16);
 }
 
+.blood-recipe-popover {
+  position: absolute;
+  z-index: 55;
+  width: fit-content;
+  max-width: min(460px, calc(100vw - 24px));
+  max-height: min(72vh, 720px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 18px;
+  border: 1px solid rgba(49, 168, 150, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 26px 80px rgba(38, 28, 51, 0.24);
+  backdrop-filter: blur(16px);
+}
+
+.blood-recipe-popover::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  left: -10px;
+  width: 18px;
+  height: 18px;
+  transform: rotate(45deg);
+  border-left: 1px solid rgba(49, 168, 150, 0.22);
+  border-bottom: 1px solid rgba(49, 168, 150, 0.22);
+  background: inherit;
+}
+
+.blood-recipe-popover.popover-above::before {
+  top: auto;
+  bottom: 22px;
+}
+
+.blood-recipe-popover .recipe-detail-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  align-items: center;
+}
+
+.blood-recipe-popover p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.blood-recipe-popover .popover-total {
+  background: linear-gradient(135deg, #12705f, var(--teal));
+}
+
+.material-card-button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  appearance: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
 @media (max-width: 860px) {
   .hero {
     grid-template-columns: 1fr;
@@ -621,6 +688,12 @@ h2 {
   }
 
   .recipe-popover {
+    left: 12px !important;
+    width: auto !important;
+    max-width: none;
+  }
+
+  .blood-recipe-popover {
     left: 12px !important;
     width: auto !important;
     max-width: none;

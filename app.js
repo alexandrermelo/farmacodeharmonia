@@ -1,3 +1,4 @@
+// Part 1 - Dados
 const farmacos = [
   {
     key: "raiva",
@@ -261,15 +262,32 @@ const oilRecipes = {
   ],
 };
 
-const craftedIngredientRecipes = {
-  ...bloodRecipes,
-  ...oilRecipes,
+const reagentRecipes = {
+  "Reagente Líquido Limpo": [
+    ["Sal", 1],
+    ["Erva Aurora", 1],
+    ["Água Purificada", 1],
+    ["Grama Selvagem", 1],
+  ],
+  "Reagente em Pó Puro": [
+    ["Açúcar", 1],
+    ["Azaleia Prata", 1],
+    ["Água Purificada", 1],
+    ["Grama Selvagem", 1],
+  ],
+  "Reagente Pó Puro": [
+    ["Açúcar", 1],
+    ["Azaleia Prata", 1],
+    ["Água Purificada", 1],
+    ["Grama Selvagem", 1],
+  ],
 };
 
 const recipeLookup = {
   ...elixirRecipes,
   ...bloodRecipes,
   ...oilRecipes,
+  ...reagentRecipes,
 };
 
 const baseBloodTypes = [
@@ -280,64 +298,80 @@ const baseBloodTypes = [
   "Sangue de Lobo",
 ];
 
-const substituteBloods = {
-  "Sangue de Urso": ["Sangue de Troll", "Sangue de Ogro", "Sangue de Dinossauro", "Sangue de Leão", "Sangue de Iaque"],
-  "Sangue de Lagarto": ["Sangue de Minhoca", "Sangue de Morcego", "Sangue de Pássaro Kuku", "Sangue de Cobra"],
-  "Sangue de Porco": ["Sangue de Cervo", "Sangue de Ovelha", "Sangue de Boi", "Sangue de Waragon", "Sangue de Lhama", "Sangue de Cabra"],
-  "Sangue de Raposa": ["Sangue de Guaxinim", "Sangue de Macaco", "Sangue de Doninha", "Sangue de Escorpião", "Sangue de Marmota"],
-  "Sangue de Lobo": ["Sangue de Rinoceronte", "Sangue de Dragão Guepardo", "Sangue de Flamingo"],
-};
-
+// Part 2 - Estado e renderização
 const quantityInput = document.querySelector("#targetQuantity");
 const cards = document.querySelector("#farmacoCards");
 const bloodSummary = document.querySelector("#bloodSummary");
-const recipePopover = document.querySelector("#recipePopover");
-let selectedRecipe = null;
-let activeAnchor = null;
-let closeTimer = null;
+const templatePopover = document.querySelector("#recipePopover");
 
-recipePopover.addEventListener("pointerenter", cancelPopoverClose);
-recipePopover.addEventListener("pointerleave", schedulePopoverClose);
+const openPopovers = [];
 
 function getQuantity() {
   return Math.max(0, Math.floor(Number(quantityInput.value) || 0));
 }
 
 function formatAmount(value) {
-  return value.toLocaleString("pt-BR");
+  const safeValue = Number.isFinite(Number(value)) ? Number(value) : 0;
+  return safeValue.toLocaleString("pt-BR");
 }
 
-function isBloodItem(name) {
-  return name.startsWith("Sangue de ") || name.startsWith("Sangue do ") || name.startsWith("Sangue da ");
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
 }
 
-function accumulateBloodTotals(name, amount, totals) {
-  if (!isBloodItem(name)) return;
-
-  const recipe = bloodRecipes[name];
-  if (!recipe || baseBloodTypes.includes(name)) {
-    totals[name] = (totals[name] || 0) + amount;
-    return;
-  }
-
-  recipe.forEach(([ingredient, ingredientAmount]) => {
-    accumulateBloodTotals(ingredient, amount * ingredientAmount, totals);
-  });
+function getRecipe(name) {
+  return recipeLookup[name] || null;
 }
 
-function accumulateBaseBloodTotals(name, amount, totals) {
-  const recipe = recipeLookup[name];
+function renderIngredientItem(name, amount) {
+  const total = formatAmount(amount);
+  const recipe = getRecipe(name);
 
   if (recipe) {
-    recipe.forEach(([ingredient, ingredientAmount]) => {
-      accumulateBaseBloodTotals(ingredient, amount * ingredientAmount, totals);
-    });
-    return;
+    return `
+      <li>
+        <button
+          type="button"
+          class="ingredient-button recipe-link"
+          data-recipe-name="${escapeHtml(name)}"
+          data-recipe-total="${amount}"
+        >${escapeHtml(name)}</button>
+        <strong>${total}</strong>
+      </li>
+    `;
   }
 
-  if (isBloodItem(name)) {
-    accumulateBloodTotals(name, amount, totals);
+  return `
+    <li>
+      <span>${escapeHtml(name)}</span>
+      <strong>${total}</strong>
+    </li>
+  `;
+}
+
+function resolveBaseBloodTotals(name, amount, totals = {}, trail = new Set()) {
+  const recipe = getRecipe(name);
+
+  if (recipe) {
+    if (trail.has(name)) return totals;
+    trail.add(name);
+    recipe.forEach(([ingredient, ingredientAmount]) => {
+      resolveBaseBloodTotals(ingredient, amount * ingredientAmount, totals, trail);
+    });
+    trail.delete(name);
+    return totals;
   }
+
+  if (baseBloodTypes.includes(name)) {
+    totals[name] = (totals[name] || 0) + amount;
+  }
+
+  return totals;
 }
 
 function renderBloodSummary(quantity) {
@@ -346,7 +380,7 @@ function renderBloodSummary(quantity) {
   farmacos.forEach((farmaco) => {
     const farmacoAmount = quantity * farmaco.amount;
     farmaco.items.forEach(([name, amount]) => {
-      accumulateBaseBloodTotals(name, farmacoAmount * amount, totals);
+      resolveBaseBloodTotals(name, farmacoAmount * amount, totals);
     });
   });
 
@@ -354,7 +388,7 @@ function renderBloodSummary(quantity) {
     .map(
       (name) => `
         <div class="blood-row">
-          <span>${name}</span>
+          <span>${escapeHtml(name)}</span>
           <strong>${formatAmount(totals[name] || 0)}</strong>
         </div>
       `
@@ -364,82 +398,7 @@ function renderBloodSummary(quantity) {
   bloodSummary.innerHTML = `
     <h2>Sangues totais</h2>
     <p>Mostra apenas os sangues coletados usados nas receitas.</p>
-    <div class="blood-list">
-      ${rows}
-    </div>
-  `;
-}
-
-function buildBloodPopover(name, total) {
-  if (craftedIngredientRecipes[name]) {
-    const baseTotals = {};
-    if (bloodRecipes[name]) {
-      accumulateBloodTotals(name, total, baseTotals);
-    }
-
-    const materials = craftedIngredientRecipes[name]
-      .map(([ingredient, amount]) => `
-        <li>
-          <span>${ingredient}</span>
-          <strong>${formatAmount(amount * total)}</strong>
-        </li>
-      `)
-      .join("");
-    const baseMaterials = Object.entries(baseTotals)
-      .map(
-        ([ingredient, amount]) => `
-          <li>
-            <span>${ingredient}</span>
-            <strong>${formatAmount(amount)}</strong>
-          </li>
-        `
-      )
-      .join("");
-
-    return `
-      <div class="material-card green" tabindex="0">
-        <div class="material-badge green">${bloodRecipes[name] ? "Sangue feito" : "Ingrediente feito"}</div>
-        <div class="material-name">${name}</div>
-        <div class="material-count">${formatAmount(total)}</div>
-        <div class="material-tip">
-          <strong>Como fazer</strong>
-          <small>Total para ${formatAmount(total)} unidade(s).</small>
-          <ul>${materials}</ul>
-          ${
-            bloodRecipes[name]
-              ? `<strong style="margin-top:10px; display:block;">Base coletada</strong>
-          <ul>${baseMaterials || '<li><span>Sem sangue base</span><strong>0</strong></li>'}</ul>`
-              : ""
-          }
-        </div>
-      </div>
-    `;
-  }
-
-  if (substituteBloods[name]) {
-    const substitutes = substituteBloods[name]
-      .map((item) => `<span class="sub-pill">${item}</span>`)
-      .join("");
-
-    return `
-      <div class="material-card red" tabindex="0">
-        <div class="material-badge red">Sangue substituível</div>
-        <div class="material-name">${name}</div>
-        <div class="material-count">${formatAmount(total)}</div>
-        <div class="material-tip">
-          <strong>Substitutos</strong>
-          <small>Você pode usar outros sangues de mesmo valor.</small>
-          <div class="substitutes">${substitutes}</div>
-        </div>
-      </div>
-    `;
-  }
-
-  return `
-    <div class="material-card" tabindex="0">
-      <div class="material-name">${name}</div>
-      <div class="material-count">${formatAmount(total)}</div>
-    </div>
+    <div class="blood-list">${rows}</div>
   `;
 }
 
@@ -448,22 +407,37 @@ function renderCards(quantity) {
     .map((farmaco) => {
       const farmacoAmount = quantity * farmaco.amount;
       const ingredients = farmaco.items
-        .map(([name, amount]) => `
-          <li>
-            ${
-              name === "Catalisador Mágico"
-                ? `<span>${name}</span>`
-                : `<button class="ingredient-button" type="button" data-elixir="${name}" data-total="${farmacoAmount * amount}">${name}</button>`
-            }
-            <strong>${formatAmount(farmacoAmount * amount)}</strong>
-          </li>
-        `)
+        .map(([name, amount]) => {
+          const total = farmacoAmount * amount;
+          const recipe = getRecipe(name);
+
+          if (recipe) {
+            return `
+              <li>
+                <button
+                  type="button"
+                  class="ingredient-button"
+                  data-elixir="${escapeHtml(name)}"
+                  data-total="${total}"
+                >${escapeHtml(name)}</button>
+                <strong>${formatAmount(total)}</strong>
+              </li>
+            `;
+          }
+
+          return `
+            <li>
+              <span>${escapeHtml(name)}</span>
+              <strong>${formatAmount(total)}</strong>
+            </li>
+          `;
+        })
         .join("");
 
       return `
         <article class="farmaco-card">
           <header class="farmaco-head">
-            <h3>${farmaco.title}</h3>
+            <h3>${escapeHtml(farmaco.title)}</h3>
             <div class="count-badge">${formatAmount(farmacoAmount)}</div>
           </header>
           <ul class="ingredients">${ingredients}</ul>
@@ -471,158 +445,201 @@ function renderCards(quantity) {
       `;
     })
     .join("");
-
-  cards.querySelectorAll("[data-elixir]").forEach((button) => {
-    button.addEventListener("pointerenter", () => openRecipe(button));
-    button.addEventListener("focus", () => openRecipe(button));
-    button.addEventListener("pointerleave", schedulePopoverClose);
-    button.addEventListener("blur", schedulePopoverClose);
-  });
 }
 
-function openRecipe(button) {
-  cancelPopoverClose();
-  selectedRecipe = {
-    name: button.dataset.elixir,
-    quantity: Number(button.dataset.total) || 0,
-  };
-  activeAnchor = button;
-  renderRecipePopover();
+// Part 3 - Pop-ups e eventos
+function createPopoverInstance() {
+  const popover = document.createElement("aside");
+  popover.className = "recipe-popover recipe-popover-instance";
+  popover.hidden = false;
+  document.body.appendChild(popover);
+  openPopovers.push(popover);
+  return popover;
 }
 
-function renderRecipePopover() {
-  if (!selectedRecipe) {
-    recipePopover.hidden = true;
-    return;
-  }
-
-  const recipe = elixirRecipes[selectedRecipe.name];
+function renderPopoverContent(name, quantity) {
+  const recipe = getRecipe(name);
 
   if (!recipe) {
-    recipePopover.innerHTML = `
-      <button class="popover-close" type="button" aria-label="Fechar">×</button>
+    return `
+      <button class="popover-close" type="button" aria-label="Fechar">&times;</button>
       <div>
-        <span class="card-kicker">Receita do elixir</span>
-        <h2>${selectedRecipe.name}</h2>
-        <p>A receita deste elixir ainda não está cadastrada no arquivo da pasta txt.</p>
+        <span class="card-kicker">Receita</span>
+        <h2>${escapeHtml(name)}</h2>
+        <p>A receita deste item ainda não está cadastrada.</p>
       </div>
-      <div class="popover-total">${formatAmount(selectedRecipe.quantity)}</div>
+      <div class="popover-total">${formatAmount(quantity)}</div>
     `;
-    recipePopover.hidden = false;
-    requestAnimationFrame(() => positionPopover(activeAnchor));
-    bindPopoverEvents();
-    return;
   }
 
-  const materials = recipe
-    .map(([name, amount]) => buildBloodPopover(name, amount * selectedRecipe.quantity))
+  const ingredients = recipe
+    .map(([ingredient, amount]) => renderIngredientItem(ingredient, amount * quantity))
     .join("");
 
-  recipePopover.innerHTML = `
-    <button class="popover-close" type="button" aria-label="Fechar">×</button>
+  const baseBloodTotals = {};
+  resolveBaseBloodTotals(name, quantity, baseBloodTotals);
+  const baseBloodRows = Object.entries(baseBloodTotals)
+    .map(
+      ([blood, amount]) => `
+        <li>
+          <span>${escapeHtml(blood)}</span>
+          <strong>${formatAmount(amount)}</strong>
+        </li>
+      `
+    )
+    .join("");
+
+  let badge = "Receita";
+  if (bloodRecipes[name]) badge = "Sangue feito";
+  else if (oilRecipes[name]) badge = "Óleo feito";
+  else if (reagentRecipes[name]) badge = "Reagente feito";
+
+  return `
+    <button class="popover-close" type="button" aria-label="Fechar">&times;</button>
     <div class="recipe-detail-head">
       <div>
-        <span class="card-kicker">Receita do elixir</span>
-        <h2>${selectedRecipe.name}</h2>
-        <p>Materiais para fazer ${formatAmount(selectedRecipe.quantity)} unidade(s).</p>
+        <span class="card-kicker">Receita do item</span>
+        <h2>${escapeHtml(name)}</h2>
+        <p>Materiais para fazer ${formatAmount(quantity)} unidade(s).</p>
       </div>
-      <div class="popover-total">${formatAmount(selectedRecipe.quantity)}</div>
+      <div class="popover-total">${formatAmount(quantity)}</div>
     </div>
-    <div class="materials-grid">${materials}</div>
+    <div class="materials-grid">
+      <div class="material-card green">
+        <div class="material-badge green">${badge}</div>
+        <div class="material-name">${escapeHtml(name)}</div>
+        <div class="material-tip" style="max-height:none; opacity:1; visibility:visible; transform:none; padding:14px;">
+          <strong>Ingredientes</strong>
+          <ul>${ingredients}</ul>
+          ${
+            baseBloodRows
+              ? `<strong style="margin-top:10px; display:block;">Base coletada</strong><ul>${baseBloodRows}</ul>`
+              : ""
+          }
+        </div>
+      </div>
+    </div>
   `;
-  recipePopover.hidden = false;
-  requestAnimationFrame(() => positionPopover(activeAnchor));
-  bindPopoverEvents();
 }
 
-function bindPopoverEvents() {
-  const closeButton = recipePopover.querySelector(".popover-close");
-  if (closeButton) {
-    closeButton.addEventListener("click", closePopover);
-  }
-}
-
-function closePopover() {
-  cancelPopoverClose();
-  selectedRecipe = null;
-  activeAnchor = null;
-  recipePopover.hidden = true;
-}
-
-function schedulePopoverClose() {
-  cancelPopoverClose();
-  closeTimer = window.setTimeout(() => {
-    closePopover();
-  }, 120);
-}
-
-function cancelPopoverClose() {
-  if (closeTimer) {
-    window.clearTimeout(closeTimer);
-    closeTimer = null;
-  }
-}
-
-function positionPopover(anchor) {
-  if (!anchor) return;
+function positionPopover(popover, anchor) {
+  if (!popover || !anchor) return;
 
   const rect = anchor.getBoundingClientRect();
-  const popoverWidth = Math.min(recipePopover.offsetWidth || 420, window.innerWidth - 24);
   const gap = 14;
-  const popoverHeight = Math.min(recipePopover.scrollHeight || 0, window.innerHeight * 0.78);
+  const popoverWidth = Math.min(popover.offsetWidth || 420, window.innerWidth - 24);
+  const popoverHeight = Math.min(popover.scrollHeight || 0, window.innerHeight * 0.78);
   const spaceBelow = window.innerHeight - rect.bottom - gap;
   const spaceAbove = rect.top - gap;
   const placeAbove = spaceBelow < popoverHeight && spaceAbove > spaceBelow;
-  const left = Math.min(
-    Math.max(12, rect.right + gap),
-    window.innerWidth - popoverWidth - 12
-  );
-  const viewportTop = placeAbove
+  const left = Math.min(Math.max(12, rect.right + gap), window.innerWidth - popoverWidth - 12);
+  const top = placeAbove
     ? Math.max(12, rect.top - popoverHeight - gap)
     : Math.min(Math.max(12, rect.bottom + gap), window.innerHeight - popoverHeight - 12);
 
-  recipePopover.style.width = `fit-content`;
-  recipePopover.style.maxWidth = `${Math.min(520, window.innerWidth - 24)}px`;
-  recipePopover.style.left = `${left + window.scrollX}px`;
-  recipePopover.style.top = `${viewportTop + window.scrollY}px`;
-  recipePopover.classList.toggle("popover-above", placeAbove);
+  popover.style.width = "fit-content";
+  popover.style.maxWidth = `${Math.min(520, window.innerWidth - 24)}px`;
+  popover.style.left = `${left + window.scrollX}px`;
+  popover.style.top = `${top + window.scrollY}px`;
+  popover.classList.toggle("popover-above", placeAbove);
 }
 
-function syncPopoverPosition() {
-  if (!selectedRecipe || !activeAnchor || recipePopover.hidden) return;
-  positionPopover(activeAnchor);
+function openRecipe(name, quantity, anchor, replace = false) {
+  if (replace) closeAllPopovers();
+
+  const popover = createPopoverInstance();
+  popover.dataset.recipeName = name;
+  popover.dataset.recipeTotal = String(quantity);
+  popover.__anchor = anchor;
+  popover.innerHTML = renderPopoverContent(name, quantity);
+
+  const closeButton = popover.querySelector(".popover-close");
+  if (closeButton) {
+    closeButton.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      closePopoverFrom(popover);
+    });
+  }
+
+  requestAnimationFrame(() => positionPopover(popover, anchor));
+}
+
+function closePopoverFrom(popover) {
+  if (!popover) return;
+  const index = openPopovers.indexOf(popover);
+  if (index === -1) return;
+
+  const removed = openPopovers.splice(index);
+  removed.forEach((item) => item.remove());
+}
+
+function closeAllPopovers() {
+  while (openPopovers.length) {
+    openPopovers.pop().remove();
+  }
+}
+
+function refreshOpenPopovers() {
+  openPopovers.forEach((popover) => {
+    if (popover.__anchor && document.body.contains(popover.__anchor)) {
+      positionPopover(popover, popover.__anchor);
+    }
+  });
 }
 
 function render() {
   const quantity = getQuantity();
-
   renderCards(quantity);
   renderBloodSummary(quantity);
-  if (selectedRecipe) {
-    const newQuantity = farmacos
-      .flatMap((farmaco) => {
-        const farmacoAmount = quantity * farmaco.amount;
-        return farmaco.items.map(([name, amount]) => [name, farmacoAmount * amount]);
-      })
-      .find(([name]) => name === selectedRecipe.name)?.[1];
-
-    selectedRecipe.quantity = newQuantity ?? selectedRecipe.quantity;
-    activeAnchor = cards.querySelector(`[data-elixir="${selectedRecipe.name}"]`);
-    renderRecipePopover();
-  }
+  closeAllPopovers();
 }
 
 quantityInput.addEventListener("input", render);
-window.addEventListener("scroll", syncPopoverPosition, { passive: true });
-window.addEventListener("resize", syncPopoverPosition);
+window.addEventListener("scroll", refreshOpenPopovers, { passive: true });
+window.addEventListener("resize", refreshOpenPopovers);
+
 document.addEventListener("click", (event) => {
-  if (recipePopover.hidden) return;
-  const clickedInsidePopover = recipePopover.contains(event.target);
-  const clickedAnchor = activeAnchor && activeAnchor.contains(event.target);
-  if (!clickedInsidePopover && !clickedAnchor) closePopover();
+  const closeButton = event.target.closest(".popover-close");
+  if (closeButton) {
+    const popover = closeButton.closest(".recipe-popover");
+    if (popover) closePopoverFrom(popover);
+    event.preventDefault();
+    return;
+  }
+
+  const nestedTrigger = event.target.closest("[data-recipe-name]");
+  if (nestedTrigger) {
+    event.preventDefault();
+    event.stopPropagation();
+    openRecipe(
+      nestedTrigger.dataset.recipeName,
+      Number(nestedTrigger.dataset.recipeTotal) || 0,
+      nestedTrigger,
+      false
+    );
+    return;
+  }
+
+  const mainTrigger = event.target.closest("[data-elixir]");
+  if (mainTrigger) {
+    event.preventDefault();
+    openRecipe(
+      mainTrigger.dataset.elixir,
+      Number(mainTrigger.dataset.total) || 0,
+      mainTrigger,
+      true
+    );
+    return;
+  }
+
+  if (!event.target.closest(".recipe-popover")) {
+    closeAllPopovers();
+  }
 });
+
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closePopover();
+  if (event.key === "Escape") closeAllPopovers();
 });
 
 render();
