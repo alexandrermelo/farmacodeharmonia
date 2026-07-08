@@ -1,0 +1,369 @@
+eu quero que você monte para min uma calculadora que seja feita em html5,css3, javascript, oque precisa ser feito eu tenho aqui uma lista de itens que precisa para fazer um item muito caro em um jogo, mais ficar calculando manualmente isso toda vez manualmente e muito chato, então desenvolva para min uma calculadora que pode ser aberta em html local, onde ela tem vinculações os seus vínculos estão assim = 
+
+
+fármaco da harmonia como obter = 
+	Fármaco da Raiva x1
+	Fármaco da Adaptação x1
+	Fármaco do Potencial x1
+	Fármaco da Decadência x1
+	Fármaco da Ira Descontrolada x1
+
+		Fármaco da Raiva como obter =
+			Elixir de Fúria x30
+			Elixir do Frenesi x30
+			Elixir da Concentração x30
+			Elixir da Destruição x30
+			Catalisador Mágico x10
+
+		Fármaco da Adaptação como obter =
+			Elixir da Defesa (quantidade total)
+			Elixir de Espiral (quantidade total)
+			Elixir de Vida (quantidade total)
+			Elixir de Estamina (quantidade total)
+			Catalisador Mágico (quantidade total)
+
+		Fármaco do Potencial como obter =
+			Elixir do Vento (quantidade total)
+			Elixir de Feitiço (quantidade total)
+			Elixir de Choque (quantidade total)
+			Elixir de Rapidez (quantidade total)
+			Catalisador Mágico (quantidade total)
+
+		Fármaco da Decadência como obter =
+			Elixir de Perfuração (quantidade total)
+			Elixir da Morte (quantidade total)
+			Elixir de Pilhagem (quantidade total)
+			Elixir do Ceifador (quantidade total)
+			Catalisador Mágico (quantidade total)
+
+		Fármaco da Ira Descontrolada
+			Elixir de Assassinato (quantidade total)
+			Elixir de Detecção (quantidade total)
+			Elixir de Carnificina (quantidade total)
+			Elixir do Céu (quantidade total)
+			Catalisador Mágico (quantidade total)
+
+
+igredientes para fazer os elixires e quantidades de igredietes para fazer 1 (um)
+
+Elixir de Fúria como fazer = 
+
+1x Seiva de Freixo
+4x Cogumelo Anão
+4x Sangue de Urso
+3x Água Purificada
+
+
+Elixir do Frenesi como fazer = 
+
+Óleo de Regeneração x1
+5x Reagente Líquido Limpo
+Cogumelo Fantasma x2
+3x Vestígios da Natureza
+Seiva de Cedro x5
+
+Elixir da Concentração como fazer =
+
+Reagente Líquido Limpo x1
+Cogumelo Nuvem x3
+Sangue de Urso x3
+Grama Selvagem x2
+
+Elixir da Destruição como fazer =
+
+1x Óleo da Tempestade
+3x Vestígios da Natureza
+5x Reagente Líquido Limpo
+5x Pó de Chama
+7x Seiva de Cedro Nevado
+
+
+Elixir da Defesa como fazer =
+
+1x Reagente Líquido Limpo
+6x Seiva de Freixo
+5x Sangue de Porco
+3x Água Purificada
+
+Elixir de Espiral como fazer =
+
+Seiva de Tuia x6
+Galho de Monge x3
+Sangue de Palhaço x2
+Pó de Chama x2
+Água Purificada x3
+
+
+Elixir da Vida como fazer =
+
+1x Reagente em pó Puro
+3x Poção de HP(Pequena)
+3x Azaleia Real Prateada
+5x Sangue de Raposa
+
+Elixir de Estamina como fazer =
+
+1x Reagente em pó Puro
+5x Seiva de Bétula
+4x Sangue de Urso
+2x Cogumelo Anão
+
+Elixir do Vento como fazer =
+
+Sangue de Homem Sábio x1
+Cogumelo Vidente x5
+Pó de Escuridão x2
+Seiva de Pinheiro x5
+
+Elixir de Feitiço como fazer =
+
+Sangue do Tirano x1
+Flor de Escama de Fogo x5
+Pó de Escuridão x2
+Seiva de Bordo x3
+
+Elixir de Choque como fazer =
+
+1x Sangue de Palhaço
+5x Cogumelo Tigre
+3x Pó do Tempo
+7x Seiva de Cedro
+
+Elixir de Rapidez como fazer =
+
+Sangue da Fera Lendária x1
+Cogumelo Flecha x5
+Pó de Escuridão x2
+Seiva de Bétula x5
+
+Elixir de Perfuração como fazer
+
+1x Óleo da Corrupção
+4x Reagente Líquido Limpo
+5x Cogumelo Bluffer
+2x Vestígios da Natureza
+5x Seiva de Pinheiro
+
+
+Elixir da Morte como fazer =
+
+1x Óleo de Tranquilidade
+6x Reagente Líquido Limpo
+2x Cogumelo Ancestral
+2x Vestígios da Natureza
+7x Seiva de Freixo
+
+Elixir de Pilhagem como fazer =
+
+1x Óleo de Coragem
+4x Reagente Líquido Limpo
+3x Cogumelo Corcunda
+2x Vestígios da Natureza
+4x Seiva de Bétula
+
+Elixir do Ceifador como fazer =
+
+1x Óleo de Coragem
+4x Reagente em pó Puro
+2x Cogumelo Céu
+4x Vestígios da Natureza
+2x Galho de Monge
+
+Óleo de Coragem como fazer =
+
+Sangue de Palhaço x1
+Fruto da Natureza x1
+Pó de Chama x1
+Galho de Monge x1
+
+Óleo de Tranquilidade como fazer =
+
+Sangue de Homem Sábio x1
+Fruto da Natureza x1
+Pó da Terra x1
+Laço de Árvore Sangrenta x1
+
+Sangue de Homem Sábio como fazer =
+
+Reagente Líquido Limpo x1
+Sangue de Raposa x2
+Vestígio da Natureza x1
+Galho de Monge x1
+
+Óleo da Corrupção como fazer =
+
+Sangue do Pecador x1
+Fruto da Natureza x1
+Pó de Escuridão x1
+Folha de Espírito x1
+
+Sangue do Pecador como fazer =
+
+Reagente Líquido Limpo x1
+Sangue de Porco x2
+Pó de Chama x1
+Laço de Árvore Sangrenta x1
+
+Reagente Líquido Limpo como fazer =
+
+Sal x1
+Erva Aurora x1
+Água Purificada x1
+Grama Selvagem x1 ou Erva Daninha x1
+
+Sangue da Fera Lendária como fazer =
+
+Reagente Pó Puro x1
+Sangue de Lagarto x2
+Vestígio da Natureza x1
+Folha de Espírito x1
+
+Sangue de Palhaço como fazer =
+
+Reagente Líquido Limpo x1
+Sangue de Lobo x2
+Pó de Escuridão x1
+Folha de Espírito x1
+
+Reagente Pó Puro como fazer =
+
+Açúcar x1
+Azaleia Prata x1
+Água Purificada x1
+Grama Selvagem x1 ou Erva Daninha x1
+
+Óleo de Regeneração como fazer =
+
+Sangue da Fera Lendária x1
+Fruto da Natureza x1
+Pó de Rachadura x1
+Caroço de Árvore Vermelha x1 ou Erva Eterna x1
+
+Óleo da Tempestade como fazer =
+
+Sangue do Tirano x1
+Fruto da Natureza x1
+Pó do Tempo x1
+Casca de Árvore Velha x1
+
+Sangue do Tirano como fazer =
+
+Reagente Pó Puro x1
+Sangue de Urso x2
+Vestígio da Natureza x1
+Galho de Monge x1
+
+
+a aqui eu vou deixar os itens que podem ser subistituidos por outros de mesmo valor,
+
+
+Sangue de Urso
+Sangue de Urso - BDO
+- Description:
+Um recurso natural obtido através da Coleta que pode ser usado para modificar outros materiais através da Alquimia.
+
+- Uso : Sangue do Tirano, Elixir da Concentração, Elixir de Fúria etc.
+
+- Como obter: Coletando Fluidos de Urso
+
+- Ingrediente Substituto: 
+  Sangue de Troll
+  Sangue de Ogro
+  Sangue de Dinossauro
+  Sangue de Leão
+  Sangue de Iaque
+
+
+Sangue de Lagarto
+Sangue de Lagarto - BDO
+- Description:
+Um recurso natural obtido através da Coleta que pode ser usado para modificar outros materiais através da Alquimia.
+
+- Uso: Sangue da Fera Lendária etc.
+
+- Como obter: Coletando Fluidos de lagarto
+
+- Ingrediente Substituto: 
+  Sangue de Minhoca
+  Sangue de Morcego
+  Sangue de Pássaro Kuku
+  Sangue de Cobra
+
+Sangue de Porco
+Sangue de Porco - BDO
+- Description:
+Um recurso natural obtido através da Coleta que pode ser usado para modificar outros materiais através da Alquimia.
+
+- Uso: Sangue do Pecador, Pudim Escuro, Elixir da Defesa etc.
+
+- Como obter: Coletando Fluidos de porco
+
+- Ingrediente Substituto: 
+  Sangue de Cervo
+  Sangue de Ovelha
+  Sangue de Boi
+  Sangue de Waragon
+  Sangue de Lhama
+  Sangue de Cabra
+
+Sangue de Raposa
+Sangue de Raposa - BDO
+- Description:
+Um recurso natural obtido através da Coleta que pode ser usado para modificar outros materiais através da Alquimia.
+
+- Uso: Sangue de Homem Sábio, Elixir da Energia etc.
+
+- Como obter: Coletando Fluidos de raposa
+
+- Ingrediente Substituto: 
+  Sangue de Guaxinim
+  Sangue de Macaco
+  Sangue de Doninha
+  Sangue de Escorpião
+  Sangue de Marmota
+
+Sangue de Lobo
+Sangue de Lobo - BDO
+- Description:
+Um recurso natural obtido através da Coleta que pode ser usado para modificar outros materiais através da Alquimia.
+
+- Uso: Sangue de Palhaço, Elixir do Selo etc.
+
+- Como obter: Coletando Fluidos de lobo
+
+- Ingrediente Substituto : 
+  Sangue de Rinoceronte
+  Sangue de Dragão Guepardo
+  Sangue de Flamingo
+
+Elixir de Assassinato como fazer =
+
+Óleo de Regeneração x1
+Reagente Pó Puro x5
+Cogumelo Amanita x4
+Vestígio da Natureza x2
+Caroço de Árvore Vermelha x2
+
+Elixir de Detecção como fazer =
+
+1x Óleo da Tempestade
+Reagente Pó Puro x6
+Trufa x3
+3x Vestígios da Natureza
+Casca de Árvore Velha x2
+
+Elixir de Carnificina como fazer =
+
+Óleo da Corrupção x1
+Reagente Pó Puro x7
+Cogumelo Tigre x2
+Vestígio da Natureza x3
+Folha de Espírito x2
+
+Elixir do Céu como fazer =
+
+Óleo de Tranquilidade x1
+Reagente Pó Puro x6
+Cogumelo Imperador x1
+Vestígio da Natureza x4
+Laço de Árvore Sangrenta x2

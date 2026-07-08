@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora de Fármaco da Harmonia</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Black Desert Online</p>
+          <h1>Calculadora de Fármaco da Harmonia</h1>
+        </div>
+
+        <label class="quantity-control">
+          <span>Quantidade desejada</span>
+          <input
+            id="targetQuantity"
+            type="number"
+            min="0"
+            step="1"
+            value="0"
+            aria-label="Quantidade de Fármaco da Harmonia"
+          />
+        </label>
+      </section>
+
+      <section class="cards-grid" id="farmacoCards" aria-label="Fármacos necessários"></section>
+    </main>
+
+    <aside class="notice-panel" aria-label="Aviso sobre equivalência de materiais">
+      <h2>Atenção</h2>
+      <p>Todos os materiais das receitas são feitos com itens brancos.</p>
+      <p class="notice-example">
+        Exemplo: se a receita pedir 5 cogumelos tigres, isso equivale a 5 itens brancos
+        (cogumelos tigres); você pode trocar por 2 cogumelos tigres verdes ou 1
+        cogumelo tigre azul do mesmo tipo.
+      </p>
+      <div class="notice-rarity-lines">
+        <span>Lembre-se:</span>
+        <span>Branco = comum</span>
+        <span>Verde = incomum</span>
+        <span>Azul = raro</span>
+      </div>
+      <div class="notice-table">
+        <div class="rarity-row rarity-white">
+          <span>Branco (Normal)</span>
+          <strong>1</strong>
+        </div>
+        <div class="rarity-row rarity-green">
+          <span>Verde (High Quality)</span>
+          <strong>3 a 4</strong>
+        </div>
+        <div class="rarity-row rarity-blue">
+          <span>Azul (Special)</span>
+          <strong>8</strong>
+        </div>
+      </div>
+    </aside>
+
+    <aside class="blood-panel" id="bloodSummary" aria-label="Resumo de sangues"></aside>
+
+    <aside class="recipe-popover" id="recipePopover" hidden aria-live="polite"></aside>
+
+    <script src="app.js"></script>
+  </body>
+</html>
