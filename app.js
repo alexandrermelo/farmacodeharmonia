@@ -266,6 +266,12 @@ const craftedIngredientRecipes = {
   ...oilRecipes,
 };
 
+const recipeLookup = {
+  ...elixirRecipes,
+  ...bloodRecipes,
+  ...oilRecipes,
+};
+
 const baseBloodTypes = [
   "Sangue de Urso",
   "Sangue de Lagarto",
@@ -319,19 +325,19 @@ function accumulateBloodTotals(name, amount, totals) {
   });
 }
 
-function accumulateRecipeBloodTotals(recipe, multiplier, totals) {
-  recipe.forEach(([name, amount]) => {
-    const totalAmount = multiplier * amount;
+function accumulateBaseBloodTotals(name, amount, totals) {
+  const recipe = recipeLookup[name];
 
-    if (craftedIngredientRecipes[name]) {
-      accumulateRecipeBloodTotals(craftedIngredientRecipes[name], totalAmount, totals);
-      return;
-    }
+  if (recipe) {
+    recipe.forEach(([ingredient, ingredientAmount]) => {
+      accumulateBaseBloodTotals(ingredient, amount * ingredientAmount, totals);
+    });
+    return;
+  }
 
-    if (isBloodItem(name)) {
-      accumulateBloodTotals(name, totalAmount, totals);
-    }
-  });
+  if (isBloodItem(name)) {
+    accumulateBloodTotals(name, amount, totals);
+  }
 }
 
 function renderBloodSummary(quantity) {
@@ -340,11 +346,7 @@ function renderBloodSummary(quantity) {
   farmacos.forEach((farmaco) => {
     const farmacoAmount = quantity * farmaco.amount;
     farmaco.items.forEach(([name, amount]) => {
-      if (craftedIngredientRecipes[name]) {
-        accumulateRecipeBloodTotals(craftedIngredientRecipes[name], farmacoAmount * amount, totals);
-      } else if (isBloodItem(name)) {
-        accumulateBloodTotals(name, farmacoAmount * amount, totals);
-      }
+      accumulateBaseBloodTotals(name, farmacoAmount * amount, totals);
     });
   });
 
