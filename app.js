@@ -1,4 +1,4 @@
-// Part 1 - Dados
+﻿// Part 1 - Dados
 const farmacos = [
   {
     key: "raiva",
@@ -374,34 +374,72 @@ function resolveBaseBloodTotals(name, amount, totals = {}, trail = new Set()) {
   return totals;
 }
 
+function resolveBaseMaterialTotals(name, amount, totals = {}, trail = new Set()) {
+  const recipe = getRecipe(name);
+
+  if (recipe) {
+    if (trail.has(name)) return totals;
+    trail.add(name);
+    recipe.forEach(([ingredient, ingredientAmount]) => {
+      resolveBaseMaterialTotals(ingredient, amount * ingredientAmount, totals, trail);
+    });
+    trail.delete(name);
+    return totals;
+  }
+
+  totals[name] = (totals[name] || 0) + amount;
+  return totals;
+}
+
 function renderBloodSummary(quantity) {
-  const totals = {};
+  const bloodTotals = {};
+  const materialTotals = {};
 
   farmacos.forEach((farmaco) => {
     const farmacoAmount = quantity * farmaco.amount;
     farmaco.items.forEach(([name, amount]) => {
-      resolveBaseBloodTotals(name, farmacoAmount * amount, totals);
+      const totalAmount = farmacoAmount * amount;
+      resolveBaseBloodTotals(name, totalAmount, bloodTotals);
+      resolveBaseMaterialTotals(name, totalAmount, materialTotals);
     });
   });
 
-  const rows = baseBloodTypes
+  const bloodRows = baseBloodTypes
     .map(
       (name) => `
         <div class="blood-row">
           <span>${escapeHtml(name)}</span>
-          <strong>${formatAmount(totals[name] || 0)}</strong>
+          <strong>${formatAmount(bloodTotals[name] || 0)}</strong>
+        </div>
+      `
+    )
+    .join("");
+
+  const materialRows = Object.entries(materialTotals)
+    .filter(([name]) => !baseBloodTypes.includes(name))
+    .sort((a, b) => b[1] - a[1])
+    .map(
+      ([name, amount]) => `
+        <div class="blood-row">
+          <span>${escapeHtml(name)}</span>
+          <strong>${formatAmount(amount)}</strong>
         </div>
       `
     )
     .join("");
 
   bloodSummary.innerHTML = `
-    <h2>Sangues totais</h2>
-    <p>Mostra apenas os sangues coletados usados nas receitas.</p>
-    <div class="blood-list">${rows}</div>
+    <h2>Totais</h2>
+    <div class="summary-section">
+      <h3>Sangues base</h3>
+      <div class="blood-list">${bloodRows}</div>
+    </div>
+    <div class="summary-section">
+      <h3>Materiais totais</h3>
+      <div class="blood-list">${materialRows || '<div class="blood-empty">Nenhum material encontrado.</div>'}</div>
+    </div>
   `;
 }
-
 function renderCards(quantity) {
   cards.innerHTML = farmacos
     .map((farmaco) => {
@@ -594,7 +632,6 @@ function render() {
   renderBloodSummary(quantity);
   closeAllPopovers();
 }
-
 quantityInput.addEventListener("input", render);
 window.addEventListener("scroll", refreshOpenPopovers, { passive: true });
 window.addEventListener("resize", refreshOpenPopovers);
@@ -643,3 +680,5 @@ document.addEventListener("keydown", (event) => {
 });
 
 render();
+
+

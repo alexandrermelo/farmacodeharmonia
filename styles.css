@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   color-scheme: light;
   --bg: #f3f5f7;
   --surface: rgba(255, 255, 255, 0.86);
@@ -59,6 +59,18 @@ button {
   background: rgba(255, 255, 255, 0.94);
   box-shadow: 0 16px 46px rgba(38, 28, 51, 0.09);
 }
+.summary-section {
+  margin-top: 14px;
+}
+
+.summary-section h3 {
+  margin: 0 0 8px;
+  color: var(--purple);
+  font-size: 0.88rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
 
 .blood-panel h2 {
   margin-bottom: 8px;
@@ -708,7 +720,6 @@ h2 {
     position: static;
     max-width: none;
   }
-
   .material-tip {
     max-height: 220px;
     margin-top: 4px;
@@ -739,7 +750,7 @@ h2 {
     width: auto;
     max-width: 1180px;
     margin-left: 220px;
-    margin-right: 240px;
+    margin-right: 250px;
   }
 
   .notice-panel {
@@ -760,3 +771,6 @@ h2 {
     z-index: 20;
   }
 }
+
+
+
