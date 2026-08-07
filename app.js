@@ -303,8 +303,27 @@ const quantityInput = document.querySelector("#targetQuantity");
 const cards = document.querySelector("#farmacoCards");
 const bloodSummary = document.querySelector("#bloodSummary");
 const templatePopover = document.querySelector("#recipePopover");
+const themeToggle = document.querySelector("#themeToggle");
 
 const openPopovers = [];
+const themeStorageKey = "farmaco-theme";
+
+function applyTheme(theme) {
+  const normalizedTheme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = normalizedTheme;
+  if (themeToggle) {
+    themeToggle.setAttribute("aria-pressed", normalizedTheme === "dark" ? "true" : "false");
+  }
+  return normalizedTheme;
+}
+
+function getPreferredTheme() {
+  const savedTheme = localStorage.getItem(themeStorageKey);
+  if (savedTheme === "light" || savedTheme === "dark") return savedTheme;
+  return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
 
 function getQuantity() {
   return Math.max(0, Math.floor(Number(quantityInput.value) || 0));
@@ -631,6 +650,17 @@ function render() {
   renderCards(quantity);
   renderBloodSummary(quantity);
   closeAllPopovers();
+}
+
+applyTheme(getPreferredTheme());
+
+if (themeToggle) {
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+    const nextTheme = currentTheme === "dark" ? "light" : "dark";
+    localStorage.setItem(themeStorageKey, nextTheme);
+    applyTheme(nextTheme);
+  });
 }
 quantityInput.addEventListener("input", render);
 window.addEventListener("scroll", refreshOpenPopovers, { passive: true });
