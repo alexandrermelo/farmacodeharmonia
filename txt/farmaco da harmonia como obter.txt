@@ -1,0 +1,40 @@
+# Rewriting the file with the corrected ratios (3 of each intermediate fármaco -> 1 Harmonia)
+
+content = """FÁRMACO DA HARMONIA – GUIA DE PRODUÇÃO (ajustado)
+=================================================
+
+I. Receita do Fármaco da Harmonia (Alquimia Simples)
+---------------------------------------------------
+Para **1 Fármaco da Harmonia** você precisa:
+
+- 3 × Fármaco da **Raiva**
+- 3 × Fármaco da **Adaptação**
+- 3 × Fármaco do **Potencial**
+- 3 × Fármaco da **Decadência**
+- 3 × Fármaco da **Ira Descontrolada**
+
+(5 itens × 3 un. = 15 fármacos intermediários por tentativa)
+
+II. Produção dos fármacos intermediários
+----------------------------------------
+Cada receita de fármaco listado abaixo continua produzindo **10 unidades**.  
+A diferença é que, para 1 Harmonia, você vai precisar **apenas 3** de cada um deles (portanto, **30 %** da receita cheia).
+
+No dia-a-dia basta lembrar: **“recipe × 0,3 = quantidade para 1 Harmonia”**.
+
+### Exemplo rápido – Fármaco da Raiva
+- Receita cheia: 30 Elixir da Fúria, 30 Frenesi, 30 Concentração, 30 Destruição, 10 Catalisadores  
+- Para 3 un.: **9/9/9/9 elixires + 3 catalisadores**
+
+(Siga a mesma lógica de proporção 0,3 para os outros quatro fármacos.)
+
+III. Elixires e ingredientes (receitas base)
+-------------------------------------------
+As receitas dos **20 elixires** e dos **óleos/reagentes** permanecem COMO LISTADO na versão anterior.  
+Use o fator de conversão para calcular quanto precisará:
+
+- **Para 1 Harmonia:** multiplicar a receita de cada fármaco por 0,3  
+- **Para N Harmonias:** multiplicar por (3 × N / 10)  
+
+IV. Fórmula geral de cálculo
+----------------------------

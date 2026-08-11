@@ -73,7 +73,7 @@ const elixirRecipes = {
     ["Óleo de Regeneração", 1],
     ["Reagente Líquido Limpo", 5],
     ["Cogumelo Fantasma", 2],
-    ["Vestígios da Natureza", 3],
+    ["Fruto da Natureza", 3],
     ["Seiva de Cedro", 5],
   ],
   "Elixir da Concentração": [
@@ -84,7 +84,7 @@ const elixirRecipes = {
   ],
   "Elixir da Destruição": [
     ["Óleo da Tempestade", 1],
-    ["Vestígios da Natureza", 3],
+    ["Fruto da Natureza", 3],
     ["Reagente Líquido Limpo", 5],
     ["Pó de Chama", 5],
     ["Seiva de Cedro Nevado", 7],
@@ -142,28 +142,28 @@ const elixirRecipes = {
     ["Óleo da Corrupção", 1],
     ["Reagente Líquido Limpo", 4],
     ["Cogumelo Bluffer", 5],
-    ["Vestígios da Natureza", 2],
+    ["Fruto da Natureza", 2],
     ["Seiva de Pinheiro", 5],
   ],
   "Elixir da Morte": [
     ["Óleo de Tranquilidade", 1],
     ["Reagente Líquido Limpo", 6],
     ["Cogumelo Ancestral", 2],
-    ["Vestígios da Natureza", 2],
+    ["Fruto da Natureza", 2],
     ["Seiva de Freixo", 7],
   ],
   "Elixir de Pilhagem": [
     ["Óleo de Coragem", 1],
     ["Reagente Líquido Limpo", 4],
     ["Cogumelo Corcunda", 3],
-    ["Vestígios da Natureza", 2],
+    ["Fruto da Natureza", 2],
     ["Seiva de Bétula", 4],
   ],
   "Elixir do Ceifador": [
     ["Óleo de Coragem", 1],
     ["Reagente em Pó Puro", 4],
     ["Cogumelo Céu", 2],
-    ["Vestígios da Natureza", 4],
+    ["Fruto da Natureza", 4],
     ["Galho de Monge", 2],
   ],
   "Elixir de Assassinato": [
@@ -177,7 +177,7 @@ const elixirRecipes = {
     ["Óleo da Tempestade", 1],
     ["Reagente Pó Puro", 6],
     ["Trufa", 3],
-    ["Vestígios da Natureza", 3],
+    ["Fruto da Natureza", 3],
     ["Casca de Árvore Velha", 2],
   ],
   "Elixir de Carnificina": [
@@ -298,13 +298,54 @@ const baseBloodTypes = [
   "Sangue de Lobo",
 ];
 
+const bloodSubstitutionGroups = [
+  {
+    id: "blood-group-lobo",
+    title: "Grupo 1 - Sangue de Lobo",
+    reference: "Sangue de Lobo",
+    substitutes: ["Sangue de Rinoceronte", "Sangue de Dragão-Leopardo", "Sangue de Flamingo"],
+  },
+  {
+    id: "blood-group-cervo",
+    title: "Grupo 2 - Sangue de Cervo",
+    reference: "Sangue de Cervo",
+    substitutes: ["Sangue de Ovelha", "Sangue de Boi", "Sangue de Waragon", "Sangue de Porco", "Sangue de Lhama", "Sangue de Cabra"],
+  },
+  {
+    id: "blood-group-raposa",
+    title: "Grupo 3 - Sangue de Raposa",
+    reference: "Sangue de Raposa",
+    substitutes: ["Sangue de Doninha", "Sangue de Guaxinim", "Sangue de Macaco", "Sangue de Escorpião", "Sangue de Marmota"],
+  },
+  {
+    id: "blood-group-urso",
+    title: "Grupo 4 - Sangue de Urso",
+    reference: "Sangue de Urso",
+    substitutes: ["Sangue de Troll", "Sangue de Ogro", "Sangue de Dinossauro", "Sangue de Leão", "Sangue de Yak", "Sangue de Elefante de Pedra"],
+  },
+  {
+    id: "blood-group-lagarto",
+    title: "Grupo 5 - Sangue de Lagarto",
+    reference: "Sangue de Lagarto",
+    substitutes: ["Sangue de Verme", "Sangue de Morcego", "Sangue de Pássaro Kuku", "Sangue de Cobra"],
+  },
+];
+
+const bloodSubstitutionAnchorByName = Object.fromEntries(
+  bloodSubstitutionGroups.flatMap((group) => [
+    [group.reference, group.id],
+    ...group.substitutes.map((name) => [name, group.id]),
+  ])
+);
+
+const harmonyRecipe = farmacos.map((farmaco) => [farmaco.title, 3]);
+
 // Part 2 - Estado e renderização
 const quantityInput = document.querySelector("#targetQuantity");
 const cards = document.querySelector("#farmacoCards");
 const bloodSummary = document.querySelector("#bloodSummary");
-const templatePopover = document.querySelector("#recipePopover");
-
-const openPopovers = [];
+const recipeLibrary = document.querySelector("#recipeLibrary");
+const bloodSubstitutions = document.querySelector("#bloodSubstitutions");
 
 function getQuantity() {
   return Math.max(0, Math.floor(Number(quantityInput.value) || 0));
@@ -328,19 +369,29 @@ function getRecipe(name) {
   return recipeLookup[name] || null;
 }
 
+function getRecipeAnchorId(name) {
+  if (name === "Fármaco da Harmonia") return "farmaco-harmonia";
+  const farmaco = farmacos.find((item) => item.title === name);
+  if (farmaco) return `farmaco-${slugify(farmaco.key)}`;
+  if (recipeLookup[name]) return `recipe-${slugify(name)}`;
+  if (bloodSubstitutionAnchorByName[name]) return bloodSubstitutionAnchorByName[name];
+  return null;
+}
+
+function renderLinkedText(name) {
+  const anchorId = getRecipeAnchorId(name);
+  if (!anchorId) return escapeHtml(name);
+  return `<a class="ingredient-button recipe-link" href="#${anchorId}">${escapeHtml(name)}</a>`;
+}
+
 function renderIngredientItem(name, amount) {
   const total = formatAmount(amount);
-  const recipe = getRecipe(name);
+  const anchorId = getRecipeAnchorId(name);
 
-  if (recipe) {
+  if (anchorId) {
     return `
       <li>
-        <button
-          type="button"
-          class="ingredient-button recipe-link"
-          data-recipe-name="${escapeHtml(name)}"
-          data-recipe-total="${amount}"
-        >${escapeHtml(name)}</button>
+        <a class="ingredient-button recipe-link" href="#${anchorId}">${escapeHtml(name)}</a>
         <strong>${total}</strong>
       </li>
     `;
@@ -408,7 +459,7 @@ function renderBloodSummary(quantity) {
     .map(
       (name) => `
         <div class="blood-row">
-          <span>${escapeHtml(name)}</span>
+          <span>${renderLinkedText(name)}</span>
           <strong>${formatAmount(bloodTotals[name] || 0)}</strong>
         </div>
       `
@@ -421,7 +472,9 @@ function renderBloodSummary(quantity) {
     .map(
       ([name, amount]) => `
         <div class="blood-row">
-          <span>${escapeHtml(name)}</span>
+          <span>${
+            getRecipeAnchorId(name) ? `<a class="ingredient-button recipe-link" href="#${getRecipeAnchorId(name)}">${escapeHtml(name)}</a>` : escapeHtml(name)
+          }</span>
           <strong>${formatAmount(amount)}</strong>
         </div>
       `
@@ -432,12 +485,123 @@ function renderBloodSummary(quantity) {
     <h2>Totais</h2>
     <div class="summary-section">
       <h3>Sangues base</h3>
-      <div class="blood-list">${bloodRows}</div>
+      <div class="blood-list blood-list-materials">${bloodRows}</div>
     </div>
     <div class="summary-section">
       <h3>Materiais totais</h3>
-      <div class="blood-list">${materialRows || '<div class="blood-empty">Nenhum material encontrado.</div>'}</div>
+      <div class="blood-list blood-list-materials">${materialRows || '<div class="blood-empty">Nenhum material encontrado.</div>'}</div>
     </div>
+  `;
+}
+
+function slugify(value) {
+  return String(value)
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+function renderRecipeLibrary() {
+  const sections = [
+    {
+      id: "farmaco-harmonia",
+      title: "Fármaco da Harmonia",
+      kind: "Fármaco",
+      subtitle: "Receita principal",
+      ingredients: harmonyRecipe,
+    },
+    ...farmacos.map((farmaco) => ({
+      id: `farmaco-${slugify(farmaco.key)}`,
+      title: farmaco.title,
+      kind: "Fármaco",
+      subtitle: "Ingredientes para produzir 1 unidade",
+      ingredients: farmaco.items,
+    })),
+    ...Object.keys(recipeLookup)
+      .sort((a, b) => a.localeCompare(b, "pt-BR"))
+      .map((name) => ({
+        id: `recipe-${slugify(name)}`,
+        title: name,
+        kind: bloodRecipes[name] ? "Sangue" : oilRecipes[name] ? "Óleo" : reagentRecipes[name] ? "Reagente" : "Elixir",
+        subtitle: "Ingredientes de produção",
+        ingredients: recipeLookup[name],
+      })),
+  ]
+    .map((entry) => {
+      const ingredients = entry.ingredients
+        .map(
+          ([ingredient, amount]) => `
+            <li>
+              <span>${renderLinkedText(ingredient)}</span>
+              <strong>${formatAmount(amount)}</strong>
+            </li>
+          `
+        )
+        .join("");
+
+      return `
+        <article class="library-card anchor-section" id="${entry.id}">
+          <header class="library-head">
+            <div>
+              <span class="card-kicker">${entry.kind}</span>
+              <h2>${escapeHtml(entry.title)}</h2>
+            </div>
+          </header>
+          <div class="library-body">
+            <h3>${escapeHtml(entry.subtitle)}</h3>
+            <ul class="library-list">${ingredients}</ul>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  recipeLibrary.innerHTML = `
+    <div class="library-section-head">
+      <span class="eyebrow">Base de receitas</span>
+      <h2>Como fazer cada combinação</h2>
+      <p>Clique no nome do item nos cards acima para vir direto para esta seção.</p>
+    </div>
+    <div class="library-grid">${sections}</div>
+  `;
+}
+
+function renderBloodSubstitutions() {
+  const sections = bloodSubstitutionGroups
+    .map((group) => {
+      const substituteItems = group.substitutes
+        .map((name) => `<li><span>${escapeHtml(name)}</span><strong>compatível</strong></li>`)
+        .join("");
+
+      return `
+        <article class="library-card anchor-section" id="${group.id}">
+          <header class="library-head">
+            <div>
+              <span class="card-kicker">Sangue natural</span>
+              <h2>${escapeHtml(group.reference)}</h2>
+            </div>
+          </header>
+          <div class="library-body">
+            <h3>${escapeHtml(group.title)}</h3>
+            <ul class="library-list">
+              <li><span>Sangue de referência</span><strong>${escapeHtml(group.reference)}</strong></li>
+              ${substituteItems}
+            </ul>
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+
+  bloodSubstitutions.innerHTML = `
+    <div class="library-section-head">
+      <span class="eyebrow">Substituição de sangues naturais</span>
+      <h2>Possible substitution / Alternative Ingredient</h2>
+      <p>Os nomes dos sangues-base no card lateral levam para esta tabela.</p>
+    </div>
+    <div class="library-grid">${sections}</div>
   `;
 }
 function renderCards(quantity) {
@@ -452,12 +616,7 @@ function renderCards(quantity) {
           if (recipe) {
             return `
               <li>
-                <button
-                  type="button"
-                  class="ingredient-button"
-                  data-elixir="${escapeHtml(name)}"
-                  data-total="${total}"
-                >${escapeHtml(name)}</button>
+                <a class="ingredient-button recipe-link" href="#recipe-${slugify(name)}">${escapeHtml(name)}</a>
                 <strong>${formatAmount(total)}</strong>
               </li>
             `;
@@ -473,9 +632,9 @@ function renderCards(quantity) {
         .join("");
 
       return `
-        <article class="farmaco-card">
+        <article class="farmaco-card anchor-section" id="farmaco-${slugify(farmaco.key)}">
           <header class="farmaco-head">
-            <h3>${escapeHtml(farmaco.title)}</h3>
+            <h3><a class="ingredient-button recipe-link" href="#farmaco-${slugify(farmaco.key)}">${escapeHtml(farmaco.title)}</a></h3>
             <div class="count-badge">${formatAmount(farmacoAmount)}</div>
           </header>
           <ul class="ingredients">${ingredients}</ul>
@@ -485,200 +644,31 @@ function renderCards(quantity) {
     .join("");
 }
 
-// Part 3 - Pop-ups e eventos
-function createPopoverInstance() {
-  const popover = document.createElement("aside");
-  popover.className = "recipe-popover recipe-popover-instance";
-  popover.hidden = false;
-  document.body.appendChild(popover);
-  openPopovers.push(popover);
-  return popover;
-}
-
-function renderPopoverContent(name, quantity) {
-  const recipe = getRecipe(name);
-
-  if (!recipe) {
-    return `
-      <button class="popover-close" type="button" aria-label="Fechar">&times;</button>
-      <div>
-        <span class="card-kicker">Receita</span>
-        <h2>${escapeHtml(name)}</h2>
-        <p>A receita deste item ainda não está cadastrada.</p>
-      </div>
-      <div class="popover-total">${formatAmount(quantity)}</div>
-    `;
-  }
-
-  const ingredients = recipe
-    .map(([ingredient, amount]) => renderIngredientItem(ingredient, amount * quantity))
-    .join("");
-
-  const baseBloodTotals = {};
-  resolveBaseBloodTotals(name, quantity, baseBloodTotals);
-  const baseBloodRows = Object.entries(baseBloodTotals)
-    .map(
-      ([blood, amount]) => `
-        <li>
-          <span>${escapeHtml(blood)}</span>
-          <strong>${formatAmount(amount)}</strong>
-        </li>
-      `
-    )
-    .join("");
-
-  let badge = "Receita";
-  if (bloodRecipes[name]) badge = "Sangue feito";
-  else if (oilRecipes[name]) badge = "Óleo feito";
-  else if (reagentRecipes[name]) badge = "Reagente feito";
-
-  return `
-    <button class="popover-close" type="button" aria-label="Fechar">&times;</button>
-    <div class="recipe-detail-head">
-      <div>
-        <span class="card-kicker">Receita do item</span>
-        <h2>${escapeHtml(name)}</h2>
-        <p>Materiais para fazer ${formatAmount(quantity)} unidade(s).</p>
-      </div>
-      <div class="popover-total">${formatAmount(quantity)}</div>
-    </div>
-    <div class="materials-grid">
-      <div class="material-card green">
-        <div class="material-badge green">${badge}</div>
-        <div class="material-name">${escapeHtml(name)}</div>
-        <div class="material-tip" style="max-height:none; opacity:1; visibility:visible; transform:none; padding:14px;">
-          <strong>Ingredientes</strong>
-          <ul>${ingredients}</ul>
-          ${
-            baseBloodRows
-              ? `<strong style="margin-top:10px; display:block;">Base coletada</strong><ul>${baseBloodRows}</ul>`
-              : ""
-          }
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function positionPopover(popover, anchor) {
-  if (!popover || !anchor) return;
-
-  const rect = anchor.getBoundingClientRect();
-  const gap = 14;
-  const popoverWidth = Math.min(popover.offsetWidth || 420, window.innerWidth - 24);
-  const popoverHeight = Math.min(popover.scrollHeight || 0, window.innerHeight * 0.78);
-  const spaceBelow = window.innerHeight - rect.bottom - gap;
-  const spaceAbove = rect.top - gap;
-  const placeAbove = spaceBelow < popoverHeight && spaceAbove > spaceBelow;
-  const left = Math.min(Math.max(12, rect.right + gap), window.innerWidth - popoverWidth - 12);
-  const top = placeAbove
-    ? Math.max(12, rect.top - popoverHeight - gap)
-    : Math.min(Math.max(12, rect.bottom + gap), window.innerHeight - popoverHeight - 12);
-
-  popover.style.width = "fit-content";
-  popover.style.maxWidth = `${Math.min(520, window.innerWidth - 24)}px`;
-  popover.style.left = `${left + window.scrollX}px`;
-  popover.style.top = `${top + window.scrollY}px`;
-  popover.classList.toggle("popover-above", placeAbove);
-}
-
-function openRecipe(name, quantity, anchor, replace = false) {
-  if (replace) closeAllPopovers();
-
-  const popover = createPopoverInstance();
-  popover.dataset.recipeName = name;
-  popover.dataset.recipeTotal = String(quantity);
-  popover.__anchor = anchor;
-  popover.innerHTML = renderPopoverContent(name, quantity);
-
-  const closeButton = popover.querySelector(".popover-close");
-  if (closeButton) {
-    closeButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      closePopoverFrom(popover);
-    });
-  }
-
-  requestAnimationFrame(() => positionPopover(popover, anchor));
-}
-
-function closePopoverFrom(popover) {
-  if (!popover) return;
-  const index = openPopovers.indexOf(popover);
-  if (index === -1) return;
-
-  const removed = openPopovers.splice(index);
-  removed.forEach((item) => item.remove());
-}
-
-function closeAllPopovers() {
-  while (openPopovers.length) {
-    openPopovers.pop().remove();
-  }
-}
-
-function refreshOpenPopovers() {
-  openPopovers.forEach((popover) => {
-    if (popover.__anchor && document.body.contains(popover.__anchor)) {
-      positionPopover(popover, popover.__anchor);
-    }
-  });
-}
-
 function render() {
   const quantity = getQuantity();
   renderCards(quantity);
   renderBloodSummary(quantity);
-  closeAllPopovers();
+  renderRecipeLibrary();
+  renderBloodSubstitutions();
 }
 quantityInput.addEventListener("input", render);
-window.addEventListener("scroll", refreshOpenPopovers, { passive: true });
-window.addEventListener("resize", refreshOpenPopovers);
 
-document.addEventListener("click", (event) => {
-  const closeButton = event.target.closest(".popover-close");
-  if (closeButton) {
-    const popover = closeButton.closest(".recipe-popover");
-    if (popover) closePopoverFrom(popover);
-    event.preventDefault();
-    return;
-  }
+function highlightAnchorFromHash() {
+  document.querySelectorAll(".anchor-section.is-target").forEach((el) => el.classList.remove("is-target"));
+  const id = decodeURIComponent(window.location.hash.replace("#", ""));
+  if (!id) return;
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.classList.add("is-target");
+  window.clearTimeout(target.__highlightTimer);
+  target.__highlightTimer = window.setTimeout(() => {
+    target.classList.remove("is-target");
+  }, 2200);
+}
 
-  const nestedTrigger = event.target.closest("[data-recipe-name]");
-  if (nestedTrigger) {
-    event.preventDefault();
-    event.stopPropagation();
-    openRecipe(
-      nestedTrigger.dataset.recipeName,
-      Number(nestedTrigger.dataset.recipeTotal) || 0,
-      nestedTrigger,
-      false
-    );
-    return;
-  }
-
-  const mainTrigger = event.target.closest("[data-elixir]");
-  if (mainTrigger) {
-    event.preventDefault();
-    openRecipe(
-      mainTrigger.dataset.elixir,
-      Number(mainTrigger.dataset.total) || 0,
-      mainTrigger,
-      true
-    );
-    return;
-  }
-
-  if (!event.target.closest(".recipe-popover")) {
-    closeAllPopovers();
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeAllPopovers();
-});
+window.addEventListener("hashchange", highlightAnchorFromHash);
 
 render();
+highlightAnchorFromHash();
 
 

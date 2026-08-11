@@ -52,6 +52,7 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
+  scroll-behavior: smooth;
   font-family:
     "Aptos", "Segoe UI", Inter, ui-sans-serif, system-ui, -apple-system,
     BlinkMacSystemFont, Arial, sans-serif;
@@ -282,12 +283,14 @@ h2 {
   font-size: 0.95rem;
   font-weight: 820;
   text-align: left;
+  text-decoration: none;
 }
 
 .ingredient-button:hover,
 .ingredient-button:focus-visible {
   color: var(--purple);
   outline: none;
+  text-decoration: none;
   background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(91, 92, 246, 0.08));
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(124, 58, 237, 0.14);
@@ -295,6 +298,12 @@ h2 {
 
 .recipe-link {
   padding: 0;
+  text-decoration: none;
+}
+
+.recipe-link:hover,
+.recipe-link:focus-visible {
+  text-decoration: none;
 }
 
 .ingredients strong {
@@ -312,6 +321,113 @@ h2 {
 .notice-panel {
   margin-top: 18px;
   padding: 16px 18px;
+}
+
+.recipe-library,
+.library-section-head {
+  margin-bottom: 16px;
+}
+
+.recipe-library,
+#bloodSubstitutions {
+  width: min(720px, calc(100% - 24px));
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.anchor-section {
+  scroll-margin-top: 88px;
+}
+
+.anchor-section.is-target {
+  animation: anchor-flash 2.2s ease;
+}
+
+@keyframes anchor-flash {
+  0% {
+    box-shadow: var(--shadow);
+    transform: translateY(0);
+  }
+  25% {
+    box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.18), var(--shadow);
+    transform: translateY(-1px);
+  }
+  100% {
+    box-shadow: var(--shadow);
+    transform: translateY(0);
+  }
+}
+
+.library-section-head h2 {
+  margin-top: 4px;
+  font-size: 1.45rem;
+}
+
+.library-section-head p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.library-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
+}
+
+.library-head {
+  margin-bottom: 12px;
+}
+
+.library-head h2 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.library-body h3 {
+  margin: 0 0 10px;
+  color: var(--purple);
+  font-size: 0.88rem;
+  text-transform: uppercase;
+}
+
+.library-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.library-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+@media (prefers-color-scheme: dark) {
+  .library-card {
+    background: rgba(15, 23, 42, 0.78);
+  }
+
+  .library-list li {
+    background: rgba(17, 24, 39, 0.88);
+  }
 }
 
 .blood-panel {
@@ -360,6 +476,11 @@ h2 {
   overflow: auto;
 }
 
+.blood-list-materials {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: none;
+}
+
 .blood-row {
   display: flex;
   justify-content: space-between;
@@ -368,6 +489,13 @@ h2 {
   padding: 8px 10px;
   border-radius: 12px;
   background: var(--teal-soft);
+}
+
+.blood-list-materials .blood-row {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  min-height: 72px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -385,6 +513,11 @@ h2 {
   color: var(--teal);
   font-size: 0.84rem;
   font-weight: 900;
+}
+
+.blood-list-materials .blood-row strong {
+  margin-top: 6px;
+  align-self: flex-end;
 }
 
 .blood-empty {
@@ -808,6 +941,10 @@ h2 {
     transform: none;
     padding: 14px;
   }
+
+  .library-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 1180px) {
@@ -854,15 +991,15 @@ h2 {
   .app {
     width: auto;
     max-width: 1180px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 210px;
+    margin-right: 390px;
   }
 
   .notice-panel {
     position: fixed;
     left: 18px;
-    top: 142px;
-    width: 200px;
+    top: 92px;
+    width: 170px;
     margin-top: 0;
     z-index: 20;
   }
@@ -870,8 +1007,11 @@ h2 {
   .blood-panel {
     position: fixed;
     right: 18px;
-    top: 142px;
-    width: 220px;
+    top: 92px;
+    width: 375px;
+    max-height: calc(100vh - 112px);
+    overflow-y: auto;
+    overflow-x: hidden;
     margin-top: 0;
     z-index: 20;
   }
