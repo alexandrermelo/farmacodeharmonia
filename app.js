@@ -19,7 +19,7 @@ const farmacos = [
     items: [
       ["Elixir da Defesa", 3],
       ["Elixir de Espiral", 3],
-      ["Elixir da Vida", 3],
+      ["Elixir de Vida", 3],
       ["Elixir de Estamina", 3],
       ["Catalisador Mágico", 1],
     ],
@@ -64,17 +64,17 @@ const farmacos = [
 
 const elixirRecipes = {
   "Elixir de Fúria": [
-    ["Seiva de Freixo", 1],
     ["Cogumelo Anão", 4],
+    ["Seiva de Freixo", 1],
     ["Sangue de Urso", 4],
     ["Água Purificada", 3],
   ],
   "Elixir do Frenesi": [
     ["Óleo de Regeneração", 1],
     ["Reagente Líquido Limpo", 5],
-    ["Cogumelo Fantasma", 2],
-    ["Fruto da Natureza", 3],
     ["Seiva de Cedro", 5],
+    ["Vestígio da Natureza", 3],
+    ["Cogumelo Fantasma", 2],
   ],
   "Elixir da Concentração": [
     ["Reagente Líquido Limpo", 1],
@@ -84,7 +84,7 @@ const elixirRecipes = {
   ],
   "Elixir da Destruição": [
     ["Óleo da Tempestade", 1],
-    ["Fruto da Natureza", 3],
+    ["Vestígio da Natureza", 3],
     ["Reagente Líquido Limpo", 5],
     ["Pó de Chama", 5],
     ["Seiva de Cedro Nevado", 7],
@@ -102,17 +102,17 @@ const elixirRecipes = {
     ["Pó de Chama", 2],
     ["Água Purificada", 3],
   ],
-  "Elixir da Vida": [
+  "Elixir de Vida": [
     ["Reagente em Pó Puro", 1],
-    ["Poção de HP (Pequena)", 3],
-    ["Azaleia Real Prateada", 3],
+    ["Azaleia Real Prata", 3],
     ["Sangue de Raposa", 5],
+    ["Poção de HP (P)", 3],
   ],
   "Elixir de Estamina": [
     ["Reagente em Pó Puro", 1],
     ["Seiva de Bétula", 5],
-    ["Sangue de Urso", 4],
     ["Cogumelo Anão", 2],
+    ["Sangue de Urso", 4],
   ],
   "Elixir do Vento": [
     ["Sangue de Homem Sábio", 1],
@@ -141,145 +141,139 @@ const elixirRecipes = {
   "Elixir de Perfuração": [
     ["Óleo da Corrupção", 1],
     ["Reagente Líquido Limpo", 4],
-    ["Cogumelo Bluffer", 5],
-    ["Fruto da Natureza", 2],
+    ["Cogumelo Blefista", 5],
     ["Seiva de Pinheiro", 5],
+    ["Vestígio da Natureza", 2],
   ],
   "Elixir da Morte": [
     ["Óleo de Tranquilidade", 1],
     ["Reagente Líquido Limpo", 6],
     ["Cogumelo Ancestral", 2],
-    ["Fruto da Natureza", 2],
     ["Seiva de Freixo", 7],
+    ["Vestígio da Natureza", 2],
   ],
   "Elixir de Pilhagem": [
     ["Óleo de Coragem", 1],
     ["Reagente Líquido Limpo", 4],
     ["Cogumelo Corcunda", 3],
-    ["Fruto da Natureza", 2],
     ["Seiva de Bétula", 4],
+    ["Vestígio da Natureza", 2],
   ],
   "Elixir do Ceifador": [
     ["Óleo de Coragem", 1],
     ["Reagente em Pó Puro", 4],
     ["Cogumelo Céu", 2],
-    ["Fruto da Natureza", 4],
     ["Galho de Monge", 2],
+    ["Vestígio da Natureza", 4],
   ],
   "Elixir de Assassinato": [
     ["Óleo de Regeneração", 1],
-    ["Reagente Pó Puro", 5],
+    ["Reagente em Pó Puro", 5],
     ["Cogumelo Amanita", 4],
-    ["Vestígio da Natureza", 2],
     ["Caroço de Árvore Vermelha", 2],
+    ["Vestígio da Natureza", 2],
   ],
   "Elixir de Detecção": [
     ["Óleo da Tempestade", 1],
-    ["Reagente Pó Puro", 6],
+    ["Reagente em Pó Puro", 6],
     ["Trufa", 3],
-    ["Fruto da Natureza", 3],
     ["Casca de Árvore Velha", 2],
+    ["Vestígio da Natureza", 3],
   ],
   "Elixir de Carnificina": [
     ["Óleo da Corrupção", 1],
-    ["Reagente Pó Puro", 7],
+    ["Reagente em Pó Puro", 7],
     ["Cogumelo Tigre", 2],
-    ["Vestígio da Natureza", 3],
     ["Folha de Espírito", 2],
+    ["Vestígio da Natureza", 3],
   ],
   "Elixir do Céu": [
     ["Óleo de Tranquilidade", 1],
-    ["Reagente Pó Puro", 6],
+    ["Reagente em Pó Puro", 6],
     ["Cogumelo Imperador", 1],
-    ["Vestígio da Natureza", 4],
     ["Laço de Árvore Sangrenta", 2],
+    ["Vestígio da Natureza", 4],
   ],
 };
 
 const bloodRecipes = {
   "Sangue de Homem Sábio": [
+    ["Galho de Monge", 1],
+    ["Vestígio da Natureza", 1],
     ["Reagente Líquido Limpo", 1],
     ["Sangue de Raposa", 2],
-    ["Vestígio da Natureza", 1],
-    ["Galho de Monge", 1],
   ],
   "Sangue do Pecador": [
+    ["Laço de Árvore Sangrenta", 1],
+    ["Pó de Chama", 1],
     ["Reagente Líquido Limpo", 1],
     ["Sangue de Porco", 2],
-    ["Pó de Chama", 1],
-    ["Laço de Árvore Sangrenta", 1],
   ],
   "Sangue da Fera Lendária": [
-    ["Reagente em Pó Puro", 1],
-    ["Sangue de Lagarto", 2],
-    ["Vestígio da Natureza", 1],
     ["Folha de Espírito", 1],
+    ["Vestígio da Natureza", 1],
+    ["Reagente em Pó Puro", 1],
+    ["Sangue de Morcego", 2],
   ],
   "Sangue de Palhaço": [
+    ["Folha de Espírito", 1],
+    ["Pó de Escuridão", 1],
     ["Reagente Líquido Limpo", 1],
     ["Sangue de Lobo", 2],
-    ["Pó de Escuridão", 1],
-    ["Folha de Espírito", 1],
   ],
   "Sangue do Tirano": [
+    ["Galho de Monge", 1],
+    ["Vestígio da Natureza", 1],
     ["Reagente em Pó Puro", 1],
     ["Sangue de Urso", 2],
-    ["Vestígio da Natureza", 1],
-    ["Galho de Monge", 1],
   ],
 };
 
 const oilRecipes = {
   "Óleo de Coragem": [
-    ["Sangue de Palhaço", 1],
+    ["Galho de Monge", 1],
     ["Fruto da Natureza", 1],
     ["Pó de Chama", 1],
-    ["Galho de Monge", 1],
+    ["Sangue de Palhaço", 1],
   ],
   "Óleo de Tranquilidade": [
-    ["Sangue de Homem Sábio", 1],
+    ["Laço de Árvore Sangrenta", 1],
     ["Fruto da Natureza", 1],
     ["Pó da Terra", 1],
-    ["Laço de Árvore Sangrenta", 1],
+    ["Sangue de Homem Sábio", 1],
   ],
   "Óleo da Corrupção": [
-    ["Sangue do Pecador", 1],
+    ["Folha de Espírito", 1],
     ["Fruto da Natureza", 1],
     ["Pó de Escuridão", 1],
-    ["Folha de Espírito", 1],
+    ["Sangue do Pecador", 1],
   ],
   "Óleo de Regeneração": [
-    ["Sangue da Fera Lendária", 1],
+    ["Caroço de Árvore Vermelha", 1],
     ["Fruto da Natureza", 1],
     ["Pó de Rachadura", 1],
-    ["Caroço de Árvore Vermelha", 1],
+    ["Sangue da Fera Lendária", 1],
   ],
   "Óleo da Tempestade": [
-    ["Sangue do Tirano", 1],
+    ["Casca de Árvore Velha", 1],
     ["Fruto da Natureza", 1],
     ["Pó do Tempo", 1],
-    ["Casca de Árvore Velha", 1],
+    ["Sangue do Tirano", 1],
   ],
 };
 
 const reagentRecipes = {
   "Reagente Líquido Limpo": [
-    ["Sal", 1],
-    ["Erva Aurora", 1],
-    ["Água Purificada", 1],
     ["Grama Selvagem", 1],
+    ["Erva Aurora", 1],
+    ["Sal", 1],
+    ["Água Purificada", 1],
   ],
   "Reagente em Pó Puro": [
-    ["Açúcar", 1],
-    ["Azaleia Prata", 1],
-    ["Água Purificada", 1],
     ["Grama Selvagem", 1],
-  ],
-  "Reagente Pó Puro": [
+    ["Azaleia Real Prata", 1],
     ["Açúcar", 1],
-    ["Azaleia Prata", 1],
     ["Água Purificada", 1],
-    ["Grama Selvagem", 1],
   ],
 };
 
@@ -292,7 +286,7 @@ const recipeLookup = {
 
 const baseBloodTypes = [
   "Sangue de Urso",
-  "Sangue de Lagarto",
+  "Sangue de Morcego",
   "Sangue de Porco",
   "Sangue de Raposa",
   "Sangue de Lobo",
@@ -303,7 +297,7 @@ const bloodSubstitutionGroups = [
     id: "blood-group-lobo",
     title: "Grupo 1 - Sangue de Lobo",
     reference: "Sangue de Lobo",
-    substitutes: ["Sangue de Rinoceronte", "Sangue de Dragão-Leopardo", "Sangue de Flamingo"],
+    substitutes: ["Sangue de Rinoceronte", "Sangue de Dragão Guepardo", "Sangue de Flamingo"],
   },
   {
     id: "blood-group-cervo",
@@ -321,13 +315,13 @@ const bloodSubstitutionGroups = [
     id: "blood-group-urso",
     title: "Grupo 4 - Sangue de Urso",
     reference: "Sangue de Urso",
-    substitutes: ["Sangue de Troll", "Sangue de Ogro", "Sangue de Dinossauro", "Sangue de Leão", "Sangue de Yak", "Sangue de Elefante de Pedra"],
+    substitutes: ["Sangue de Troll", "Sangue de Ogro", "Sangue de Dinossauro", "Sangue de Leão", "Sangue de Iaque", "Sangue de Elefante Rocha"],
   },
   {
-    id: "blood-group-lagarto",
-    title: "Grupo 5 - Sangue de Lagarto",
-    reference: "Sangue de Lagarto",
-    substitutes: ["Sangue de Verme", "Sangue de Morcego", "Sangue de Pássaro Kuku", "Sangue de Cobra"],
+    id: "blood-group-morcego",
+    title: "Grupo 5 - Sangue de Morcego",
+    reference: "Sangue de Morcego",
+    substitutes: ["Sangue de Lagarto", "Sangue de Minhoca", "Sangue de Pássaro Kuku", "Sangue de Cobra"],
   },
 ];
 
@@ -338,7 +332,7 @@ const bloodSubstitutionAnchorByName = Object.fromEntries(
   ])
 );
 
-const harmonyRecipe = farmacos.map((farmaco) => [farmaco.title, 3]);
+const harmonyRecipe = farmacos.map((farmaco) => [farmaco.title, 1]);
 
 // Part 2 - Estado e renderização
 const quantityInput = document.querySelector("#targetQuantity");

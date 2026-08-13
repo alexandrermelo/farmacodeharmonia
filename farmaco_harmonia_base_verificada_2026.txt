@@ -1,0 +1,357 @@
+FÁRMACO DA HARMONIA — BASE DE RECEITAS VERIFICADA
+==================================================
+
+Data da revisão: 13/08/2026
+
+REGRAS IMPORTANTES
+------------------
+- Separar ingrediente-base de substitutos.
+- Substituto NÃO deve virar o nome principal da receita.
+- Cada item deve ter ID único.
+- Não usar similaridade textual/includes() para relacionar receitas.
+- As receitas de Alquimia abaixo são por tentativa; o rendimento pode variar conforme Alquimia/Maestria.
+
+1. FÁRMACO DA HARMONIA
+----------------------
+10 × Fármaco da Raiva
+10 × Fármaco da Adaptação
+10 × Fármaco do Potencial
+10 × Fármaco da Decadência
+10 × Fármaco da Ira Descontrolada
+= 10 × Fármaco da Harmonia
+
+Proporção por 1 Harmonia:
+1 × cada um dos 5 fármacos intermediários.
+
+2. FÁRMACOS INTERMEDIÁRIOS
+--------------------------
+
+FÁRMACO DA RAIVA
+30 × Elixir de Fúria
+30 × Elixir do Frenesi
+30 × Elixir da Concentração
+30 × Elixir da Destruição
+10 × Catalisador Mágico
+= 10 × Fármaco da Raiva
+
+FÁRMACO DA ADAPTAÇÃO
+30 × Elixir da Defesa
+30 × Elixir de Espiral
+30 × Elixir de Vida
+30 × Elixir de Estamina
+10 × Catalisador Mágico
+= 10 × Fármaco da Adaptação
+
+FÁRMACO DO POTENCIAL
+30 × Elixir do Vento
+30 × Elixir de Feitiço
+30 × Elixir de Choque
+30 × Elixir de Rapidez
+10 × Catalisador Mágico
+= 10 × Fármaco do Potencial
+
+FÁRMACO DA DECADÊNCIA
+30 × Elixir de Perfuração
+30 × Elixir da Morte
+30 × Elixir de Pilhagem
+30 × Elixir do Ceifador
+10 × Catalisador Mágico
+= 10 × Fármaco da Decadência
+
+FÁRMACO DA IRA DESCONTROLADA
+30 × Elixir de Assassinato
+30 × Elixir de Detecção
+30 × Elixir de Carnificina
+30 × Elixir do Céu
+10 × Catalisador Mágico
+= 10 × Fármaco da Ira Descontrolada
+
+3. OS 20 ELIXIRES — RECEITAS-BASE
+---------------------------------
+
+ELIXIR DE FÚRIA
+4 × Cogumelo Anão
+1 × Seiva de Freixo
+4 × Sangue de Urso
+3 × Água Purificada
+
+ELIXIR DO FRENESI
+1 × Óleo de Regeneração
+5 × Reagente Líquido Limpo
+5 × Seiva de Cedro
+3 × Vestígio da Natureza
+2 × Cogumelo Fantasma
+
+ELIXIR DA CONCENTRAÇÃO
+1 × Reagente Líquido Limpo
+3 × Cogumelo Nuvem
+2 × Grama Selvagem
+3 × Sangue de Urso
+
+ELIXIR DA DESTRUIÇÃO
+1 × Óleo da Tempestade
+3 × Vestígio da Natureza
+5 × Reagente Líquido Limpo
+5 × Pó de Chama
+7 × Seiva de Cedro Nevado
+
+ELIXIR DA DEFESA
+1 × Reagente Líquido Limpo
+6 × Seiva de Freixo
+5 × Sangue de Porco
+3 × Água Purificada
+
+ELIXIR DE ESPIRAL
+6 × Seiva de Tuia
+3 × Galho de Monge
+2 × Sangue de Palhaço
+2 × Pó de Chama
+3 × Água Purificada
+
+ELIXIR DE VIDA
+1 × Reagente em pó Puro
+3 × Azaleia Real Prata
+5 × Sangue de Raposa
+3 × Poção de HP (P)
+
+ELIXIR DE ESTAMINA
+1 × Reagente em pó Puro
+2 × Cogumelo Anão
+5 × Seiva de Bétula
+4 × Sangue de Urso
+
+ELIXIR DO VENTO
+1 × Sangue de Homem Sábio
+5 × Cogumelo Vidente
+5 × Seiva de Pinheiro
+2 × Pó de Escuridão
+
+ELIXIR DE FEITIÇO
+1 × Sangue do Tirano
+5 × Flor de Escama de Fogo
+3 × Seiva de Bordo
+2 × Pó de Escuridão
+
+ELIXIR DE CHOQUE
+1 × Sangue de Palhaço
+5 × Cogumelo Tigre
+7 × Seiva de Cedro
+3 × Pó do Tempo
+
+ELIXIR DE RAPIDEZ
+1 × Sangue da Fera Lendária
+5 × Cogumelo Flecha
+5 × Seiva de Bétula
+2 × Pó de Escuridão
+
+ELIXIR DE PERFURAÇÃO
+1 × Óleo da Corrupção
+4 × Reagente Líquido Limpo
+5 × Cogumelo Blefista
+5 × Seiva de Pinheiro
+2 × Vestígio da Natureza
+
+ELIXIR DA MORTE
+1 × Óleo de Tranquilidade
+6 × Reagente Líquido Limpo
+2 × Cogumelo Ancestral
+7 × Seiva de Freixo
+2 × Vestígio da Natureza
+
+ELIXIR DE PILHAGEM
+1 × Óleo de Coragem
+4 × Reagente Líquido Limpo
+3 × Cogumelo Corcunda
+4 × Seiva de Bétula
+2 × Vestígio da Natureza
+
+ELIXIR DO CEIFADOR
+1 × Óleo de Coragem
+4 × Reagente em pó Puro
+2 × Cogumelo Céu
+2 × Galho de Monge
+4 × Vestígio da Natureza
+
+ELIXIR DE ASSASSINATO
+1 × Óleo de Regeneração
+5 × Reagente em pó Puro
+4 × Cogumelo Amanita
+2 × Caroço de Árvore Vermelha
+2 × Vestígio da Natureza
+
+ELIXIR DE DETECÇÃO
+1 × Óleo da Tempestade
+6 × Reagente em pó Puro
+3 × Trufa
+2 × Casca de Árvore Velha
+3 × Vestígio da Natureza
+
+ELIXIR DE CARNIFICINA
+1 × Óleo da Corrupção
+7 × Reagente em pó Puro
+2 × Cogumelo Tigre
+2 × Folha de Espírito
+3 × Vestígio da Natureza
+
+ELIXIR DO CÉU
+1 × Óleo de Tranquilidade
+6 × Reagente em pó Puro
+1 × Cogumelo Imperador
+2 × Laço de Árvore Sangrenta
+4 × Vestígio da Natureza
+
+4. REAGENTES
+------------
+
+REAGENTE LÍQUIDO LIMPO
+1 × Grama Selvagem
+1 × Erva Aurora
+1 × Sal
+1 × Água Purificada
+
+REAGENTE EM PÓ PURO
+1 × Grama Selvagem
+1 × Azaleia Real Prata
+1 × Açúcar
+1 × Água Purificada
+
+5. SANGUES ALQUÍMICOS
+---------------------
+
+SANGUE DE PALHAÇO
+1 × Folha de Espírito
+1 × Pó de Escuridão
+1 × Reagente Líquido Limpo
+2 × Sangue de Lobo
+
+SANGUE DO TIRANO
+1 × Galho de Monge
+1 × Vestígio da Natureza
+1 × Reagente em pó Puro
+2 × Sangue de Urso
+
+SANGUE DE HOMEM SÁBIO
+1 × Galho de Monge
+1 × Vestígio da Natureza
+1 × Reagente Líquido Limpo
+2 × Sangue de Raposa
+
+SANGUE DO PECADOR
+1 × Laço de Árvore Sangrenta
+1 × Pó de Chama
+1 × Reagente Líquido Limpo
+2 × Sangue de Porco
+
+SANGUE DA FERA LENDÁRIA
+1 × Folha de Espírito
+1 × Vestígio da Natureza
+1 × Reagente em pó Puro
+2 × Sangue de Morcego
+
+6. ÓLEOS ALQUÍMICOS
+-------------------
+
+ÓLEO DE REGENERAÇÃO
+1 × Sangue da Fera Lendária
+1 × Caroço de Árvore Vermelha
+1 × Fruto da Natureza
+1 × Pó de Rachadura
+
+ÓLEO DA TEMPESTADE
+1 × Sangue do Tirano
+1 × Casca de Árvore Velha
+1 × Fruto da Natureza
+1 × Pó do Tempo
+
+ÓLEO DE CORAGEM
+1 × Sangue de Palhaço
+1 × Galho de Monge
+1 × Fruto da Natureza
+1 × Pó de Chama
+
+ÓLEO DA CORRUPÇÃO
+1 × Sangue do Pecador
+1 × Folha de Espírito
+1 × Fruto da Natureza
+1 × Pó de Escuridão
+
+ÓLEO DE TRANQUILIDADE
+1 × Sangue de Homem Sábio
+1 × Laço de Árvore Sangrenta
+1 × Fruto da Natureza
+1 × Pó da Terra
+
+7. SUBSTITUTOS DE SANGUE
+------------------------
+
+GRUPO LOBO
+Base na receita: Sangue de Lobo
+Substitutos:
+- Sangue de Rinoceronte
+- Sangue de Dragão Guepardo
+- Sangue de Flamingo
+
+GRUPO PORCO
+Base na receita: Sangue de Porco
+Substitutos:
+- Sangue de Cervo
+- Sangue de Ovelha
+- Sangue de Boi
+- Sangue de Waragon
+- Sangue de Lhama
+- Sangue de Cabra
+
+GRUPO RAPOSA
+Base na receita: Sangue de Raposa
+Substitutos:
+- Sangue de Guaxinim
+- Sangue de Macaco
+- Sangue de Doninha
+- Sangue de Escorpião
+- Sangue de Marmota
+
+GRUPO URSO
+Base na receita: Sangue de Urso
+Substitutos:
+- Sangue de Troll
+- Sangue de Ogro
+- Sangue de Dinossauro
+- Sangue de Leão
+- Sangue de Iaque
+- Sangue de Elefante Rocha
+
+GRUPO MORCEGO
+Base na receita: Sangue de Morcego
+Substitutos:
+- Sangue de Lagarto
+- Sangue de Minhoca
+- Sangue de Pássaro Kuku
+- Sangue de Cobra
+
+8. CÁLCULO
+----------
+
+1 Harmonia =
+1 de cada fármaco intermediário =
+3 de cada um dos 20 elixires + 5 Catalisadores Mágicos.
+
+Para N Harmonias:
+- cada fármaco intermediário = N
+- cada um dos 20 elixires = 3 × N
+- Catalisador Mágico = 5 × N
+
+Exemplos:
+1 Harmonia  -> 3 de cada elixir + 5 Catalisadores
+5 Harmonias -> 15 de cada elixir + 25 Catalisadores
+10 Harmonias -> 30 de cada elixir + 50 Catalisadores
+
+9. NOMES CORRIGIDOS IMPORTANTES
+-------------------------------
+- Azaleia Real Prata (não "Azaleia Real Prateada")
+- Sangue de Morcego é o ingrediente-base do Sangue da Fera Lendária
+- Sangue de Minhoca (não "Sangue de Verme")
+- Sangue de Dragão Guepardo (não "Dragão-Leopardo")
+- Sangue de Elefante Rocha (não "Elefante de Pedra")
+- Reagente em pó Puro (nome PT do banco)
+
+FIM DO ARQUIVO
